@@ -10,7 +10,7 @@ const studentSchema = new mongoose.Schema({
     age: Number
 });
 
-const Student = mongoose.model('students', studentSchema);
+const Student = mongoose.model('Students', studentSchema);
 
 function saveStudent(stuInfo) {
     const sc = new Student(stuInfo);
