@@ -28,7 +28,7 @@ app.get('/api/student/:id', function(req, res) {
 
 app.post('/api/students', (req, res) => {
 	const validReq = validate(req.body);
-	if (validReq == true) {
+	if (validReq === true) {
 		const entry = Model.createStudent(req.body);
 
 		entry
@@ -39,11 +39,15 @@ app.post('/api/students', (req, res) => {
 });
 
 app.put('/api/student/:id', function(req, res) {
-	const student = Model.updateStudent(req.body, req.params.id);
+	const validReq = validate(req.body);
+	if(validReq === true) {
+		const student = Model.updateStudent(req.body, req.params.id);
 
-	student
-		.then((result) => { res.send(result) })
-		.catch((error) => { res.status(400).send(error) });
+		student
+			.then((result) => { res.send(result) })
+			.catch((error) => { res.status(400).send(error) });
+	}
+	else res.status(400).send(validReq.message);
 });
 
 app.delete('/api/student/:id', function(req, res) {
