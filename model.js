@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/StudentDB', {useNewUrlParser: true, useUnifiedTopology: true})
-.then(function() { console.log('Connection established') })
-.catch(function(err) { console.log(err) });
+    .then(function() { console.log('Connection established with StudentDB') })
+    .catch(function(err) { console.log(err) });
 
 const studentSchema = new mongoose.Schema({
     name: String,
@@ -33,7 +33,40 @@ function getAllStu() {
     return stuList;
 }
 
+function getOneStu(id) {
+    let student = new Promise(function(resolve, reject) {
+        Student.findById(id, function(err, res) {
+            if(err) reject(err);
+            else resolve(res);
+        });
+    });
+    return student;
+}
+
+function findStuAndUpdate(stu, id) {
+    let student = new Promise(function(resolve, reject) {
+        Student.findByIdAndUpdate(id, stu, function(err, res) {
+            if(err) reject(err);
+            else resolve(res);
+        });
+    });
+    return student;
+}
+
+function findStuAndDelete(id) {
+    let student = new Promise(function(resolve, reject) {
+        Student.findByIdAndDelete(id, function(err, res) {
+            if(err) reject(err);
+            else resolve(res);
+        });
+    });
+    return student;
+}
+
 module.exports = {
     createStudent: saveStudent,
-    getStudents: getAllStu
+    getStudents: getAllStu,
+    getStudent: getOneStu,
+    updateStudent: findStuAndUpdate,
+    deleteStudent: findStuAndDelete
 };
